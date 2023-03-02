@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import Title from './component/title_component';
+import Input from './component/input_component';
+import Btn_s from './component/button_submit_component';
+import Btn_p from './component/button_show_pass_component';
+
 function Login() {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => console.log(data);
@@ -33,32 +38,24 @@ function Login() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex items-center'>
                     <div className="flex items-center flex-col flex-1">
-                        <label className="block my-2 mr-2">Email: </label>
-                        <label className="block my-2 mr-2">Password: </label>
-                        <label className="block my-2 mr-2">Confirm Password: </label>
+                        <Title text={"Email"}></Title>
+                        <Title text={"Password"}></Title>
+                        <Title text={"Confirm Password"}></Title>
                     </div>
                     <div className="flex items-center flex-col flex-1">
-                        <input {...register("email",)} className='pl-2 w-full my-2 rounded-2xl' type="text" name="email"></input>
+                        <Input {...register("email")}></Input>
                         <div className='flex items-center'>
-                            <input {...register("password",)} className='pl-2 my-2 rounded-2xl' type={passwordType} onChange={handlePasswordChange} name="password" value={passwordInput}></input>
-                            <button onClick={togglePassword} className="text-sm mx-2 h-9 w-36 bg-sky-500 hover:bg-sky-700 text-white rounded-2xl ...">
-                                {passwordType === "password" ?
-                                    "Show Pass" :
-                                    "Hide Pass"}
-                            </button>
+                            <Input type={passwordType} change={handlePasswordChange} value={passwordInput}></Input>
+                            <Btn_p onClick={togglePassword} type={passwordType}></Btn_p>
                         </div>
                         <div className='flex items-center'>
-                            <input {...register("confirmpassword",)} className='pl-2 my-2 rounded-2xl' type={confirmPasswordType} onChange={handleConfirmPasswordChange} name="confirmPassword" value={confirmPasswordInput}></input>
-                            <button onClick={toggleConfirmPassword} className="text-sm mx-2 h-9 w-36 bg-sky-500 hover:bg-sky-700 text-white rounded-2xl ...">
-                                {confirmPasswordType === "password" ?
-                                    "Show Confirm Pass" :
-                                    "Hide Confirm Pass"}
-                            </button>
+                            <Input type={confirmPasswordType} change={handleConfirmPasswordChange} value={confirmPasswordInput}></Input>
+                            <Btn_p onClick={toggleConfirmPassword} type={confirmPasswordType}></Btn_p>
                         </div>
                     </div>
                 </div>
                 <div className='btn'>
-                    <button className='text-sm my-2 mx-2 h-9 w-36 bg-sky-500 hover:bg-sky-700 text-white rounded-2xl ...'>submit</button>
+                    <Btn_s text={"submit"}></Btn_s>
                 </div>
             </form>
         </div>

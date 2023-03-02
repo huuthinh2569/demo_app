@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.login {
+    background-color: grey;
+    width: 500px;
+    height: 250px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.login .form_info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.login .input_title {
+    flex: 1;
+}
+
+.login .input_value {
+    flex: 3;
+}
+
+.login label {
+    display: block;
+    margin: 10px 0;
+    color: white;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login input {
+    margin: 5px 0;
+    height: 30px;
+    width: 90%;
+    border-radius: 10px;
+    border: none;
+    display: inline;
+}
+
+.login .btn {
+    display: flex;
+    align-items: center;
+}
+
+.login input[type="submit"] {
+    width: 200px;
+    height: 30px;
+    margin: 10px auto;
+    border-radius: 10px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    color: blue;
+}
+
+.login .password {
+    display: flex;
+    align-items: center;
+}
+
+.password input {
+    flex: 3;
+}
+
+.password button {
+    flex: 1;
+    height: 30px;
+    width: 30px;
+    font-size: 10px;
+}
+
+.login .confirmpassword {
+    display: flex;
+    align-items: center;
+}
+
+.confirmpassword input {
+    flex: 3;
+}
+
+.confirmpassword button {
+    flex: 1;
+    height: 30px;
+    width: 30px;
+    font-size: 10px;
+}

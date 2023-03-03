@@ -1,41 +1,32 @@
-import { useState } from 'react';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Title from './component/title_component';
+import Btn from './component/button_submit_component';
+import Input_Password from './component/input_password_component';
 import Input from './component/input_component';
-import Btn_s from './component/button_submit_component';
-import Btn_p from './component/button_show_pass_component';
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 function Login() {
-    const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
-    const [passwordType, setPasswordType] = useState("password");
-    const [passwordInput, setPasswordInput] = useState("");
-    const [confirmPasswordType, setConfirmPasswordType] = useState("password");
-    const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
-    const handlePasswordChange = (e) => {
-        setPasswordInput(e.target.value);
-    }
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPasswordInput(e.target.value);
-    }
-    const togglePassword = () => {
-        if (passwordType === "password") {
-            setPasswordType("text")
-            return;
-        }
-        setPasswordType("password")
-    }
-    const toggleConfirmPassword = () => {
-        if (confirmPasswordType === "password") {
-            setConfirmPasswordType("text")
-            return;
-        }
-        setConfirmPasswordType("password")
-    }
+    const schema = yup.object().shape({
+        email: yup.string().required(),
+        password: yup.string().required(),
+    });
+    const { control, handleSubmit } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+            confirmpassword: "",
+        },
+        criteriaMode: "all",
+        shouldFocusError: true,
+        resolver: yupResolver(schema),
+    });
+    const onSubmitHandler = (data) => {
+        console.log({ data });
+    };
     return (
         <div className="login bg-slate-400 p-2 rounded-2xl">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <div className='flex items-center'>
                     <div className="flex items-center flex-col flex-1">
                         <Title text={"Email"}></Title>
@@ -43,19 +34,25 @@ function Login() {
                         <Title text={"Confirm Password"}></Title>
                     </div>
                     <div className="flex items-center flex-col flex-1">
-                        <Input {...register("email")}></Input>
-                        <div className='flex items-center'>
-                            <Input type={passwordType} change={handlePasswordChange} value={passwordInput}></Input>
-                            <Btn_p onClick={togglePassword} type={passwordType}></Btn_p>
-                        </div>
-                        <div className='flex items-center'>
-                            <Input type={confirmPasswordType} change={handleConfirmPasswordChange} value={confirmPasswordInput}></Input>
-                            <Btn_p onClick={toggleConfirmPassword} type={confirmPasswordType}></Btn_p>
-                        </div>
+                        <Controller
+                            render={({ field: { email, password, confirmpassword } }) => {
+                                return (
+                                    <div>
+                                        <Input {...email} plaplaceholder="Input Email"></Input>
+                                        <Input_Password {...password} plaplaceholder="Input Pass"></Input_Password>
+                                        <Input_Password {...confirmpassword} placeholder="Input Confirm Pass"></Input_Password>
+                                    </div>
+                                )
+                            }}
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                        ></Controller>
+
                     </div>
                 </div>
                 <div className='btn'>
-                    <Btn_s text={"submit"}></Btn_s>
+                    <Btn text={"submit"}></Btn>
                 </div>
             </form>
         </div>

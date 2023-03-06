@@ -1,9 +1,7 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-function Input(props) {
-    const register = useForm();
+function Input() {
     return (
-        <input className='w-full pl-2 h-9 my-2 rounded-2xl' type="text" placeholder={props.placeholder}></input>
+        <input className='w-full pl-2 h-9 my-2 rounded-2xl' type="text"></input>
     )
 }
 export default Input;

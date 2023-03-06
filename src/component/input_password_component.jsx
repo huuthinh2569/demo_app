@@ -24,4 +24,4 @@ function Input_Password() {
         </div>
     )
 }
-export default Input_Password;
+export default React.forwardRef(Input_Password);

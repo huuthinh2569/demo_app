@@ -6,19 +6,22 @@ import Input_Password from './component/input_password_component';
 import Input from './component/input_component';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { ErrorMessage } from '@hookform/error-message';
 function Login() {
     const schema = yup.object().shape({
         email: yup.string().required(),
         password: yup.string().required(),
+        confirmpassword: yup.string().required(),
     });
-    const { control, handleSubmit, setValue, errors } = useForm({
-        mode: 'onSubmit',
+    const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
             password: '',
             confirmpassword: '',
         },
-        // resolver: yupResolver(schema)
+        criteriaMode: 'all',
+        shouldFocusError: true,
+        resolver: yupResolver(schema)
     })
     const onSubmitHandler = (data) => {
         console.log({ data });
@@ -34,25 +37,41 @@ function Login() {
                     </div>
                     <div className="flex items-center flex-col flex-1">
                         <Controller
-                            render={({ email }) => (<Input {...{ email }} />)}
+                            control={control}
+                            render={({ field: { value, onChange, ref } }) => (
+                                <Input
+                                    value={value}
+                                    onChange={onChange}
+                                    ref={ref}
+                                />
+                            )}
                             name="email"
-                            control={control}
                         />
                         <Controller
-                            render={({ password }) => (<Input_Password {...{ password }} />)}
+                            control={control}
+                            render={({ field: { value, onChange, ref } }) => (
+                                <Input_Password
+                                    value={value}
+                                    onChange={onChange}
+                                    ref={ref}
+                                />
+                            )}
                             name="password"
-                            control={control}
                         />
                         <Controller
-                            render={({ confirmpassword }) => (<Input_Password {...{ confirmpassword }} />)}
-                            name="confirmpassword"
                             control={control}
+                            render={({ field: { value, onChange, ref } }) => (
+                                <Input_Password
+                                    value={value}
+                                    onChange={onChange}
+                                    ref={ref}
+                                />
+                            )}
+                            name="confirmpassword"
                         />
                     </div>
                 </div>
-                <div className='btn' onClick={() => {
-                    setValue("email", "this is new");
-                }}>
+                <div className='btn'>
                     <Btn text="submit"></Btn>
                 </div>
             </form>

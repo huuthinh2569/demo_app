@@ -6,13 +6,18 @@ import Input_Password from './component/input_password_component';
 import Input from './component/input_component';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorMessage } from '@hookform/error-message';
 function Login() {
     const schema = yup.object().shape({
-        email: yup.string().required(),
-        password: yup.string().required(),
-        confirmpassword: yup.string().required(),
-    });
+        email: yup
+            .string()
+            .required("This field Is Required"),
+        password: yup
+            .string()
+            .required("This field Is Required").min(8).max(16),
+        confirmpassword: yup
+            .string()
+            .oneOf([yup.ref('password'), null], 'password must match').min(8).max(16),
+    })
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -27,7 +32,7 @@ function Login() {
         console.log({ data });
     };
     return (
-        <div className="login bg-slate-400 p-2 rounded-2xl">
+        <div className="login relative bg-slate-400 p-2 rounded-2xl">
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <div className='flex items-center'>
                     <div className="flex items-center flex-col flex-1">
@@ -47,6 +52,7 @@ function Login() {
                             )}
                             name="email"
                         />
+                        {errors.email && <p className="absolute top-7 left-full text-left w-64 text-red-500">{errors.email.message}</p>}
                         <Controller
                             control={control}
                             render={({ field: { value, onChange, ref } }) => (
@@ -58,6 +64,7 @@ function Login() {
                             )}
                             name="password"
                         />
+                        {errors.password && <p className='absolute top-20 left-full text-left w-64 text-red-500'>{errors.password.message}</p>}
                         <Controller
                             control={control}
                             render={({ field: { value, onChange, ref } }) => (
@@ -69,13 +76,14 @@ function Login() {
                             )}
                             name="confirmpassword"
                         />
+                        {errors.password && <p className='absolute top-32 text-left left-full w-64 text-red-500'>{errors.password.message}</p>}
                     </div>
                 </div>
                 <div className='btn'>
                     <Btn text="submit"></Btn>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }
 

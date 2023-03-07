@@ -1,11 +1,12 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Title from './component/title_component';
-import Btn from './component/button_submit_component';
-import Input_Password from './component/input_password_component';
-import Input from './component/input_component';
+import Title from '../component/title_component';
+import Btn from '../component/button_submit_component';
+import Input_Password from '../component/input_password_component';
+import Input from '../component/input_component';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Checkbox from '../component/checkbox_component';
 function Login() {
     const schema = yup.object().shape({
         email: yup
@@ -18,11 +19,12 @@ function Login() {
             .string()
             .oneOf([yup.ref('password'), null], 'password must match').min(8).max(16),
     })
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, getValues, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
             password: '',
             confirmpassword: '',
+            save: true,
         },
         criteriaMode: 'all',
         shouldFocusError: true,
@@ -79,6 +81,12 @@ function Login() {
                         {errors.password && <p className='absolute top-32 text-left left-full w-64 text-red-500'>{errors.password.message}</p>}
                     </div>
                 </div>
+                <Controller
+                    control={control}
+                    name="save"
+                    render={({ field: { onChange, value, ref } }) => (<Checkbox onChange={onChange} checked={value} ref={ref}></Checkbox>)}
+                >
+                </Controller>
                 <div className='btn'>
                     <Btn text="submit"></Btn>
                 </div>

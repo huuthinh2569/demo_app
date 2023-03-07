@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Login from './login';
+import Login from './view/login';
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import {
   BrowserRouter,
@@ -14,9 +14,9 @@ import {
   RouterProvider,
   Routes,
 } from "react-router-dom";
-import Register from './register';
-import Loader from './loader';
-import NotFound from './Notfound';
+import Register from './view/register';
+import Loader from './view/loader';
+import NotFound from './view/Notfound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

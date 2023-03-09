@@ -37,7 +37,14 @@ function Register() {
         shouldFocusError: true,
         resolver: yupResolver(schema)
     });
-    const onSubmit = data => console.log(data);
+    const onSubmit = (data) => {
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("fullname", data.fullname);
+        localStorage.setItem("gender", data.gender);
+        localStorage.setItem("password", data.password);
+        localStorage.setItem("confirmpassword", data.confirmpassword);
+        console.log(localStorage.getItem("email"));
+    };
     return (
         <div className="register relative bg-slate-400 rounded-2xl p-2">
             <form onSubmit={handleSubmit(onSubmit)}>

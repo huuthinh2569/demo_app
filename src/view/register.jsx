@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -38,12 +37,8 @@ function Register() {
         resolver: yupResolver(schema)
     });
     const onSubmit = (data) => {
-        localStorage.setItem("email", data.email);
-        localStorage.setItem("fullname", data.fullname);
-        localStorage.setItem("gender", data.gender);
-        localStorage.setItem("password", data.password);
-        localStorage.setItem("confirmpassword", data.confirmpassword);
-        console.log(localStorage.getItem("email"));
+        localStorage.setItem("dataStore", JSON.stringify(data));
+        console.log(localStorage.getItem("dataStore"));
     };
     return (
         <div className="register relative bg-slate-400 rounded-2xl p-2">

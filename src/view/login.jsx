@@ -29,10 +29,9 @@ function Login() {
         resolver: yupResolver(schema)
     })
     const onSubmitHandler = (data) => {
-        if (data.email === localStorage.getItem("email") && data.password === localStorage.getItem("password")) {
+        const dataStore = JSON.parse(localStorage.getItem("dataStore"));
+        if (data.email === dataStore.email) {
             console.log("login Success!!!");
-            console.log(data.email);
-            console.log(data.password);
             navigate('loader');
             setTimeout(() => {
                 navigate('dashboard');

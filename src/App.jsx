@@ -1,6 +1,15 @@
 import React from "react"
-import { Link, Outlet } from "react-router-dom"
+import {
+  Link, Navigate, Route,
+  Routes,
+} from "react-router-dom"
+import Register from './view/register';
+import Loader from './view/loader';
+import NotFound from './view/Notfound';
+import Dashboard from './view/dasboard';
+import Login from './view/login';
 export default function App() {
+  const shouldRedirect = true;
   return (
     <div className="w-full h-full bg-yellow-100 flex items-center">
       <div className="m-auto text-center">
@@ -11,7 +20,13 @@ export default function App() {
           <Link to={"/login"}>Login</Link> |
           <Link to={"/register"}>Register</Link>
         </nav>
-        <Outlet />
+        <Routes>
+          <Route path='login' element={<Login></Login>}></Route>
+          <Route path='login/loader' element={<Loader></Loader>}></Route>
+          <Route path='login/dashboard' element={shouldRedirect ? <Navigate replace to="login" /> : <Dashboard></Dashboard>}></Route>
+          <Route path='register' element={<Register></Register>}></Route>
+          <Route path='*' element={<NotFound></NotFound>}></Route>
+        </Routes>
       </div>
     </div>
   )

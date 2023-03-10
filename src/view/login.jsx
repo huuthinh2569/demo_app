@@ -28,13 +28,16 @@ function Login() {
         shouldFocusError: true,
         resolver: yupResolver(schema)
     })
+    function navihateTo(text) {
+        return navigate(text);
+    }
     const onSubmitHandler = (data) => {
         const dataStore = JSON.parse(localStorage.getItem("dataStore"));
         if (data.email === dataStore.email) {
             console.log("login Success!!!");
-            navigate('loader');
+            navihateTo("loader");
             setTimeout(() => {
-                navigate('dashboard');
+                navihateTo("dashboard");
             }, 3000);
         }
         else {

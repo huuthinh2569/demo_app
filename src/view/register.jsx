@@ -6,7 +6,9 @@ import Title from "../component/title_component";
 import Input from "../component/input_component";
 import Input_Password from '../component/input_password_component';
 import Btn from "../component/button_submit_component";
+import { useNavigate } from "react-router-dom";
 function Register() {
+    const navigate = useNavigate();
     const schema = yup.object().shape({
         email: yup
             .string()
@@ -36,9 +38,17 @@ function Register() {
         shouldFocusError: true,
         resolver: yupResolver(schema)
     });
+    function navihateTo(text) {
+        return navigate(text);
+    }
     const onSubmit = (data) => {
+        if (localStorage.getItem("dataStore") !== null) {
+            localStorage.clear();
+            console.log("data is clear");
+        }
         localStorage.setItem("dataStore", JSON.stringify(data));
         console.log(localStorage.getItem("dataStore"));
+        navihateTo("/login");
     };
     return (
         <div className="register relative bg-slate-400 rounded-2xl p-2">

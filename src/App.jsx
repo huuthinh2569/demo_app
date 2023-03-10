@@ -1,6 +1,6 @@
 import React from "react"
 import {
-  Link, Navigate, Route,
+  Link, Route,
   Routes,
 } from "react-router-dom"
 import Register from './view/register';
@@ -9,7 +9,6 @@ import NotFound from './view/Notfound';
 import Dashboard from './view/dasboard';
 import Login from './view/login';
 export default function App() {
-  const shouldRedirect = true;
   return (
     <div className="w-full h-full bg-yellow-100 flex items-center">
       <div className="m-auto text-center">
@@ -23,7 +22,7 @@ export default function App() {
         <Routes>
           <Route path='login' element={<Login></Login>}></Route>
           <Route path='login/loader' element={<Loader></Loader>}></Route>
-          <Route path='login/dashboard' element={shouldRedirect ? <Navigate replace to="login" /> : <Dashboard></Dashboard>}></Route>
+          <Route path='login/dashboard' element={<Dashboard></Dashboard>}></Route>
           <Route path='register' element={<Register></Register>}></Route>
           <Route path='*' element={<NotFound></NotFound>}></Route>
         </Routes>

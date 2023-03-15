@@ -7,8 +7,8 @@ import Input from "../component/input_component";
 import Input_Password from '../component/input_password_component';
 import Btn from "../component/button_submit_component";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../component/useLocalStorage";
 function Register() {
-    const navigate = useNavigate();
     const schema = yup.object().shape({
         email: yup
             .string()
@@ -38,30 +38,22 @@ function Register() {
         shouldFocusError: true,
         resolver: yupResolver(schema)
     });
-    function navihateTo(text) {
-        return navigate(text);
-    }
     const onSubmit = (data) => {
-        if (localStorage.getItem("dataStore") !== null) {
-            localStorage.clear();
-            console.log("data is clear");
-        }
-        localStorage.setItem("dataStore", JSON.stringify(data));
-        console.log(localStorage.getItem("dataStore"));
-        navihateTo("/login");
+        const StoreData = localStorage.setItem("dataStore", data);
+        console.log(StoreData);
     };
     return (
-        <div className="register relative bg-slate-400 rounded-2xl p-2">
+        <div className="register w-1/3 m-auto relative bg-orange-200 rounded-2xl p-2">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex items-center'>
-                    <div className="flex items-center flex-col">
+                    <div className="flex items-center flex-col flex-1">
                         <Title text="email"></Title>
                         <Title text="fullname"></Title>
                         <Title text="gender"></Title>
                         <Title text="password"></Title>
                         <Title text="confirmpassword"></Title>
                     </div>
-                    <div className="flex items-center flex-col">
+                    <div className="flex items-center flex-col flex-1">
                         <Controller
                             control={control}
                             name="email"
@@ -119,7 +111,7 @@ function Register() {
                         {errors.confirmpassword && <p className="absolute top-60 left-full text-left w-64 text-red-500">{errors.confirmpassword.message}</p>}
                     </div>
                 </div>
-                <div className='btn'>
+                <div className='flex'>
                     <Btn text="submit"></Btn>
                 </div>
             </form>

@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Checkbox from '../component/checkbox_component';
 import { useNavigate } from 'react-router-dom';
+import { AuthProvider } from '../component/AuthProvider';
 function Login() {
     const navigate = useNavigate();
     const schema = yup.object().shape({
@@ -29,23 +30,22 @@ function Login() {
         resolver: yupResolver(schema)
     })
     function navihateTo(text) {
-        return navigate(text);
+        return navigate(text, { replace: true })
     }
     const onSubmitHandler = (data) => {
         const dataStore = JSON.parse(localStorage.getItem("dataStore"));
+        localStorage.setItem("currentEmail", data.email);
         if (data.email === dataStore.email) {
             console.log("login Success!!!");
-            navihateTo("loader");
-            setTimeout(() => {
-                navihateTo("dashboard");
-            }, 3000);
+            navihateTo("/dashboard");
         }
         else {
-            console.log("Login Fail!!!")
+            console.log("Login Fail!!!");
+            navihateTo("/login");
         }
     };
     return (
-        <div className="login relative bg-slate-400 p-2 rounded-2xl">
+        <div className="login w-1/4 m-auto h-60 relative bg-orange-200 p-2 rounded-2xl">
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <div className='flex items-center'>
                     <div className="flex items-center flex-col flex-1">
@@ -85,7 +85,7 @@ function Login() {
                     render={({ field: { onChange, value, ref } }) => (<Checkbox onChange={onChange} checked={value} ref={ref}></Checkbox>)}
                 >
                 </Controller>
-                <div className='btn'>
+                <div className='flex'>
                     <Btn text="submit"></Btn>
                 </div>
             </form >

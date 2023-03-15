@@ -6,8 +6,6 @@ import Title from "../component/title_component";
 import Input from "../component/input_component";
 import Input_Password from '../component/input_password_component';
 import Btn from "../component/button_submit_component";
-import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "../component/useLocalStorage";
 function Register() {
     const schema = yup.object().shape({
         email: yup

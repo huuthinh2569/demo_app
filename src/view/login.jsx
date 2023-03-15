@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Checkbox from '../component/checkbox_component';
 import { useNavigate } from 'react-router-dom';
-import { AuthProvider } from '../component/AuthProvider';
 function Login() {
     const navigate = useNavigate();
     const schema = yup.object().shape({

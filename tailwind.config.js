@@ -4,7 +4,15 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        '10per': '10%',
+        '90per': '90%',
+      },
+      inset: {
+        '9per': '9%',
+      }
+    },
   },
   plugins: [],
 }

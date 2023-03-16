@@ -15,7 +15,6 @@ export default function App() {
       <Route path='/' element={email ? <Dashboard></Dashboard> : <HomePage></HomePage>}></Route>
       <Route path='/login' element={<Login></Login>}></Route>
       <Route path='/register' element={<Register></Register>}></Route>
-      <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
       <Route path='*' element={<NotFound></NotFound>}></Route>
     </Routes>
   )

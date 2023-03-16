@@ -36,7 +36,7 @@ function Login() {
         localStorage.setItem("currentEmail", data.email);
         if (data.email === dataStore.email) {
             console.log("login Success!!!");
-            navihateTo("/dashboard");
+            navihateTo("/");
         }
         else {
             console.log("Login Fail!!!");
@@ -44,51 +44,53 @@ function Login() {
         }
     };
     return (
-        <div className="login w-1/4 m-auto h-60 relative bg-orange-200 p-2 rounded-2xl">
-            <form onSubmit={handleSubmit(onSubmitHandler)}>
-                <div className='flex items-center'>
-                    <div className="flex items-center flex-col flex-1">
-                        <Title text={"Email"}></Title>
-                        <Title text={"Password"}></Title>
+        <div className='w-full h-full flex'>
+            <div className="login w-1/4 m-auto h-60 relative bg-orange-200 p-2 rounded-2xl">
+                <form onSubmit={handleSubmit(onSubmitHandler)}>
+                    <div className='flex items-center'>
+                        <div className="flex items-center flex-col flex-1">
+                            <Title text={"Email"}></Title>
+                            <Title text={"Password"}></Title>
+                        </div>
+                        <div className="flex items-center flex-col flex-1">
+                            <Controller
+                                control={control}
+                                render={({ field: { value, onChange, ref } }) => (
+                                    <Input
+                                        value={value}
+                                        onChange={onChange}
+                                        ref={ref}
+                                    />
+                                )}
+                                name="email"
+                            />
+                            {errors.email && <p className="absolute top-7 left-full text-left w-64 text-red-500">{errors.email.message}</p>}
+                            <Controller
+                                control={control}
+                                render={({ field: { value, onChange, ref } }) => (
+                                    <Input_Password
+                                        value={value}
+                                        onChange={onChange}
+                                        ref={ref}
+                                    />
+                                )}
+                                name="password"
+                            />
+                            {errors.password && <p className='absolute top-20 left-full text-left w-64 text-red-500'>{errors.password.message}</p>}
+                        </div>
                     </div>
-                    <div className="flex items-center flex-col flex-1">
-                        <Controller
-                            control={control}
-                            render={({ field: { value, onChange, ref } }) => (
-                                <Input
-                                    value={value}
-                                    onChange={onChange}
-                                    ref={ref}
-                                />
-                            )}
-                            name="email"
-                        />
-                        {errors.email && <p className="absolute top-7 left-full text-left w-64 text-red-500">{errors.email.message}</p>}
-                        <Controller
-                            control={control}
-                            render={({ field: { value, onChange, ref } }) => (
-                                <Input_Password
-                                    value={value}
-                                    onChange={onChange}
-                                    ref={ref}
-                                />
-                            )}
-                            name="password"
-                        />
-                        {errors.password && <p className='absolute top-20 left-full text-left w-64 text-red-500'>{errors.password.message}</p>}
+                    <Controller
+                        control={control}
+                        name="save"
+                        render={({ field: { onChange, value, ref } }) => (<Checkbox onChange={onChange} checked={value} ref={ref}></Checkbox>)}
+                    >
+                    </Controller>
+                    <div className='flex'>
+                        <Btn text="submit"></Btn>
                     </div>
-                </div>
-                <Controller
-                    control={control}
-                    name="save"
-                    render={({ field: { onChange, value, ref } }) => (<Checkbox onChange={onChange} checked={value} ref={ref}></Checkbox>)}
-                >
-                </Controller>
-                <div className='flex'>
-                    <Btn text="submit"></Btn>
-                </div>
-            </form >
-        </div >
+                </form >
+            </div >
+        </div>
     );
 }
 

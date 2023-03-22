@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import request from "../utils/request";
-import ListVideo from "./video_list_component";
+import VideoItem from "./video_item_component";
 import VideoShow from "./video_show_component";
 function Content() {
     const [videoshow, setvideoshow] = useState('');
@@ -8,10 +8,8 @@ function Content() {
     function callAPIData() {
         request.get('videos')
             .then(function (res) {
-                // handleGetdata(res.data.items[0].id, res.data.items);
                 setvideoshow(res.data.items[0].id);
                 setvideolist(res.data.items);
-                console.log(videolist);
             })
             .catch(function (error) {
                 console.log(error);
@@ -23,7 +21,16 @@ function Content() {
     return (
         <div className="w-full h-90per flex flex-row">
             <VideoShow comment="hello" id={videoshow}></VideoShow>
-            <ListVideo videolist={videolist}></ListVideo>
+            {
+                console.log(videolist)
+            }
+            <div className="flex flex-col overflow-y-auto">
+                {
+                    videolist.map(x =>
+                        <VideoItem url={x.snippet.thumbnails.high.url} title={x.snippet.localized.title} info={x.snippet.publishedAt}></VideoItem>
+                    )
+                }
+            </div>
         </div>
     )
 }

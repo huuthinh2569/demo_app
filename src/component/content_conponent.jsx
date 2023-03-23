@@ -30,7 +30,7 @@ function Content() {
                             setvideoshow(x.id);
                             setvideodesc(x.snippet.localized.description);
                         }}>
-                            <VideoItem url={x.snippet.thumbnails.high.url} title={x.snippet.localized.title} info={x.snippet.publishedAt}></VideoItem>
+                            <VideoItem key={x.id} url={x.snippet.thumbnails.high.url} title={x.snippet.localized.title} info={x.snippet.publishedAt}></VideoItem>
                         </div>
                     )
                 }

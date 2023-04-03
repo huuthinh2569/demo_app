@@ -8,8 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Checkbox from '../component/checkbox_component';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getLogin } from '../actions/login';
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const schema = yup.object().shape({
         email: yup
             .string()
@@ -32,16 +35,8 @@ function Login() {
         return navigate(text, { replace: true })
     }
     const onSubmitHandler = (data) => {
-        const dataStore = JSON.parse(localStorage.getItem("dataStore"));
-        localStorage.setItem("currentEmail", data.email);
-        if (data.email === dataStore.email) {
-            console.log("login Success!!!");
-            navihateTo("/");
-        }
-        else {
-            console.log("Login Fail!!!");
-            navihateTo("/login");
-        }
+        const action = getLogin();
+        dispatch(action);
     };
     return (
         <div className='w-full h-full flex'>

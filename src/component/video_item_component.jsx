@@ -7,7 +7,6 @@ function VideoItem(props) {
     const month = `${(datetime.getMonth() + 1) < 10 ? '0' + (datetime.getMonth() + 1) : (datetime.getMonth() + 1)}`;
     const year = `${datetime.getFullYear()}`;
     const dateMDY = `${hour}:${minute} ${date}/${month}/${year}`;
-    console.log(datetime.getMinutes());
     return (
         <div onClick={props.onclick} className="right h-11/12 flex flex-row items-center flex-auto hover:bg-yellow-400 border-4 border-yellow-400 m-2">
             <img className="w-40" src={props.url}></img>

@@ -1,7 +1,12 @@
 
-export const getVideo = (video) => {
+export const getVideo = () => {
     return {
         type: 'GET_VIDEO',
-        payload: video,
+    }
+}
+
+export const getVideoId = () => {
+    return {
+        type: "GET_VIDEO_ID",
     }
 }

@@ -1,17 +1,13 @@
 
-const initialState = {
-    list: [],
-}
 
-const videoReducer = (state = initialState, action) => {
+
+const videoReducer = (state = [], action) => {
     switch (action.type) {
         case 'GET_VIDEO': {
-            const newlist = [...state.list];
-            newlist.push(action.payload);
-            return {
-                ...state,
-                list: newlist,
-            }
+            return action;
+        }
+        case 'GET_VIDEO_ID': {
+            return action;
         }
         default:
             return state;

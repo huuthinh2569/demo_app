@@ -35,6 +35,16 @@ function Login() {
         return navigate(text, { replace: true })
     }
     const onSubmitHandler = (data) => {
+        const dataStore = JSON.parse(localStorage.getItem("dataStore"));
+        localStorage.setItem("currentEmail", data.email);
+        if (data.email === dataStore.email) {
+            console.log("login Success!!!");
+            navihateTo("/");
+        }
+        else {
+            console.log("Login Fail!!!");
+            navihateTo("/login");
+        }
         const action = getLogin();
         dispatch(action);
     };

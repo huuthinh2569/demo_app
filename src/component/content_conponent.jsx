@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getVideo } from "../actions/video";
+import { getVideo, getVideoId } from "../actions/video";
 import request from "../utils/request";
 import VideoItem from "./video_item_component";
 import VideoShow from "./video_show_component";
 function Content(props) {
     // const videoList = useSelector(state => state.video.list);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [videoshow, setvideoshow] = useState('');
     const [videodesc, setvideodesc] = useState('');
     const [videolist, setvideolist] = useState([]);
@@ -16,8 +16,8 @@ function Content(props) {
                 setvideoshow(res.data.items[0].id);
                 setvideodesc(res.data.items[0].snippet.localized.description);
                 setvideolist(res.data.items);
-                // const action = getVideo(res.data.items);
-                // dispatch(action);
+                const action = getVideo();
+                dispatch(action);
             })
             .catch(function (error) {
                 console.log(error);
@@ -34,6 +34,8 @@ function Content(props) {
                 {
                     videolist.map(x =>
                         <div onClick={() => {
+                            const action = getVideoId();
+                            dispatch(action);
                             setvideoshow(x.id);
                             setvideodesc(x.snippet.localized.description);
                         }}>

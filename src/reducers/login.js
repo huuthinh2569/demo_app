@@ -1,10 +1,11 @@
+const inittialState = {
+    list: [],
+}
 
-
-const loginReducer = (state = [], action) => {
+const loginReducer = (state = inittialState, action) => {
     switch (action.type) {
-        case 'GET_LOGIN': {
-            return action;
-        }
+        case 'GET_LOGIN':
+            return action.payload;
         default:
             return state;
     }

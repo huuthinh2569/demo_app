@@ -1,11 +1,9 @@
-import { put, takeEvery } from "redux-saga/effects";
+import { takeEvery } from "redux-saga/effects";
 import request from "../utils/request";
-
 export function* callapi() {
     request.get('videos')
         .then(function (res) {
-            const data = res.data.items;
-            console.log(data)
+            console.log(res.data.items)
         })
         .catch(function (error) {
             console.log(error);

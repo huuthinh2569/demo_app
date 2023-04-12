@@ -1,5 +1,6 @@
-export const getAPI = () => {
+export const getAPI = (data) => {
     return {
-        type: 'GET_API'
+        type: 'GET_API',
+        payload: data,
     }
 }

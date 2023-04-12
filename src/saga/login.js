@@ -1,5 +1,5 @@
-import { takeEvery, takeLeading } from "redux-saga/effects";
-import { useNavigate } from 'react-router-dom';
+import { put, takeEvery, takeLeading } from "redux-saga/effects";
+import { getLogin } from "../actions/login";
 
 
 export function* checkLogin(action) {
@@ -10,6 +10,7 @@ export function* checkLogin(action) {
     if (payload.email === dataStore.email) {
         console.log("login Success!!!");
         yield takeEvery('Navigate_Login', function* (action) {
+            yield put(getLogin(payload));
             action.navigate('/')
         })
     }
@@ -19,7 +20,6 @@ export function* checkLogin(action) {
             action.navigate('/login')
         })
     }
-    console.log("hello");
 }
 
 export function* handleLogin() {

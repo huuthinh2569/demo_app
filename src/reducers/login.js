@@ -5,7 +5,11 @@ const inittialState = {
 const loginReducer = (state = inittialState, action) => {
     switch (action.type) {
         case 'GET_LOGIN':
-            return action.payload;
+            const newlist = { ...state.list }
+            return {
+                ...state,
+                newlist,
+            };
         default:
             return state;
     }

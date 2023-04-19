@@ -1,4 +1,5 @@
 const inittialState = {
+    list: [],
     id: '',
     desc: '',
 }
@@ -6,6 +7,9 @@ const inittialState = {
 
 const videoReducer = (state = inittialState, action) => {
     switch (action.type) {
+        case 'GET_VIDEO_LIST': {
+            return action.data;
+        }
         case 'GET_VIDEO_ID': {
             return action.data;
         }

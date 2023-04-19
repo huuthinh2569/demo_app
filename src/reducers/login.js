@@ -1,15 +1,12 @@
 const inittialState = {
-    list: [],
+    username: '',
+    password: '',
 }
 
 const loginReducer = (state = inittialState, action) => {
     switch (action.type) {
         case 'GET_LOGIN':
-            const newlist = { ...state.list }
-            return {
-                ...state,
-                newlist,
-            };
+            return state;
         default:
             return state;
     }

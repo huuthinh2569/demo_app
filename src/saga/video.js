@@ -1,8 +1,12 @@
-import { takeEvery } from "redux-saga/effects";
+import { takeEvery, takeLatest } from "redux-saga/effects";
 
-function handleVideolist() {// }
-    console.log("getlist");
+function handleVideoId() {// }
+    console.log("getid");
+}
+function handleVideoDesc() {// }
+    console.log("getdesc");
 }
 export function* getVideoSaga() {
-    yield takeEvery("GET_VIDEO_List", handleVideolist);
+    yield takeLatest("GET_VIDEO_ID", handleVideoId);
+    yield takeLatest("GET_VIDEO_DESC", handleVideoDesc);
 }

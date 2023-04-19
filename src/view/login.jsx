@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Title from '../component/title_component';
 import Btn from '../component/button_submit_component';
@@ -10,6 +10,7 @@ import Checkbox from '../component/checkbox_component';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getLogin } from '../actions/login';
+import Global from '../utils/global';
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -33,8 +34,13 @@ function Login() {
     })
     const onSubmitHandler = (data) => {
         dispatch(getLogin(data));
-        dispatch({ type: 'Navigate_Login', navigate })
     };
+    useEffect(() => {
+        Global.Navigator.set(navigate);
+        return () => {
+            Global.Navigator.set(null);
+        };
+    }, [navigate]);
     return (
         <div className='w-full h-full flex'>
             <div className="login w-1/4 m-auto h-60 relative bg-orange-200 p-2 rounded-2xl">

@@ -4,19 +4,24 @@ import { getVideo, getVideoId } from "../actions/video";
 import VideoItem from "./video_item_component";
 import VideoShow from "./video_show_component";
 import { getAPI } from "../actions/api";
+import { getVideoDescState, getVideoIdState } from "../utils/selector";
 function Content() {
-    // const videoList = useSelector(state => state.video.list);
+    // const videoList = useSelector(state => state.api.list);
     const dispatch = useDispatch();
-    const [videoshow, setvideoshow] = useState('');
-    const [videodesc, setvideodesc] = useState('');
-    const [videolist, setvideolist] = useState([]);
+    const mapStateToProps = state => ({
+        getvideo: getVideoIdState(state),
+        getdesc: getVideoDescState(state)
+    });
+    const videoid = mapStateToProps.getvideo;
+    const videodesc = mapStateToProps.getdesc;
     useEffect(() => {
         dispatch(getAPI());
+        console.log(videoid);
     }, []);
     return (
         <div className="w-full h-90per flex flex-row">
-            <VideoShow comment={videodesc} id={videoshow}></VideoShow>
-
+            <VideoShow comment={videodesc} id={videoid}></VideoShow>
+            {/* 
             <div className="flex flex-col overflow-y-auto overflow-x-hidden">
                 {
                     videolist.map(x =>
@@ -27,8 +32,7 @@ function Content() {
                         </div>
                     )
                 }
-            </div>
-
+            </div> */}
         </div>
     )
 }

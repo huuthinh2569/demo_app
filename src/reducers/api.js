@@ -4,7 +4,7 @@ const inittialState = {
 
 const apiReducer = (state = inittialState, action) => {
     switch (action.type) {
-        case 'GET_API':
+        case 'SET_API':
             return state;
         default:
             return state;

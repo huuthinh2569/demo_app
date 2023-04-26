@@ -1,9 +1,20 @@
-import { put, takeEvery } from "redux-saga/effects";
-import request from "../utils/request";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { getAPI } from "../actions/api";
-import { getvideoDesc, getvideoID, getvideoLIST } from "../actions/video";
+import { setvideolist, setvideoid, setvideodesc } from "../actions/video";
+import axios from "axios";
+const APIkey = "AIzaSyBEQDHmlha8L7pKwiM2unWCa8LLGggIXuY";
+const baseURL = "https://www.googleapis.com/youtube/v3/videos"
 export function handledata() {
-    return request.get('videos')
+    return axios.get(
+        baseURL,
+        {
+            params: {
+                part: 'snippet',
+                chart: 'mostPopular',
+                key: APIkey
+            }
+        }
+    )
         .then(function (res) {
             return res.data.items;
         })
@@ -12,13 +23,10 @@ export function handledata() {
         })
 }
 export function* callapi() {
-    const data = yield (handledata());
-    const id = data[0].id;
-    const desc = data[0].snippet.description;
-    console.log(data);
-    yield put(getvideoLIST(data));
-    yield put(getvideoID(id));
-    yield put(getvideoDesc(desc));
+    const data = yield call(handledata)
+    yield put(setvideolist(data));
+    yield put(setvideoid(data[0].id));
+    yield put(setvideodesc(data[0].snippet.description));
 }
 export function* handleCallAPI() {
     yield takeEvery('GET_API', callapi)

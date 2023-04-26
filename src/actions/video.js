@@ -1,18 +1,18 @@
-export const getvideoLIST = (data) => {
+export const setvideolist = (data) => {
     return {
-        type: 'GET_VIDEO_LIST',
+        type: 'SET_VIDEO_LIST',
         payload: data,
     }
 }
-export const getvideoID = (id) => {
+export const setvideoid = (data) => {
     return {
-        type: 'GET_VIDEO_ID',
-        payload: id,
+        type: 'SET_VIDEO_ID',
+        payload: data,
     }
 }
-export const getvideoDesc = (desc) => {
+export const setvideodesc = (data) => {
     return {
-        type: 'GET_VIDEO_DESC',
-        payload: desc,
+        type: 'SET_VIDEO_DESC',
+        payload: data,
     }
 }

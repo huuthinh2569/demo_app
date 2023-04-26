@@ -10,7 +10,7 @@ export function* checkLogin(action) {
     localStorage.setItem("currentEmail", payload.email);
     if (payload.email === dataStore.email) {
         console.log("login Success!!!");
-        yield put('GET_LOGIN');
+        yield put({ type: 'GET_LOGIN' });
         navigator.navigate('/')
     }
     else {

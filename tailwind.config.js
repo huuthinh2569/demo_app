@@ -8,6 +8,7 @@ module.exports = {
       height: {
         '10per': '10%',
         '90per': '90%',
+        '70per': '70%',
       },
       inset: {
         '9per': '9%',

@@ -12,7 +12,7 @@ function Manager() {
     const userdata = useSelector(userlistState);
     return (
         <div className="w-full h-full">
-            <div className="content flex bg-slate-200 h-90per">
+            <div className="content flex bg-slate-200 h-full">
                 <div className="left flex-initial w-4/5 m-2 bg-white">
                     <div className="p-2">
                         <span className="font-bold p-1">USERS</span><span className="text-xs">Details</span>
@@ -20,7 +20,7 @@ function Manager() {
                     <Table userlist={userdata}></Table>
                     <Pagination></Pagination>
                 </div>
-                <div className="righ flex-initial w-1/5 m-2 p-2 bg-white flex flex-col">
+                <div className="righ flex-initial w-1/5 m-2 p-2 bg-white flex flex-col h-70per">
                     <button id="new_user" onClick={showCreateUser} className="w-40 m-auto my-4 h-10 bg-green-500 text-white border-2 rounded-md">New User</button>
                     <Add_Modal id="modal_create_user"></Add_Modal>
                     <div className="info flex flex-col border-y-2 py-4 my-2 border-gray-300">

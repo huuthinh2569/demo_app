@@ -16,3 +16,9 @@ export const editUser = (data) => {
         payload: data,
     }
 }
+export const deleteUser = (data) => {
+    return {
+        type: "DELETE_USER",
+        payload: data,
+    }
+}

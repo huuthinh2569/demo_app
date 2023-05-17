@@ -17,11 +17,17 @@ export function* editUser(action) {
         if (user.id === payload.id) {
             return { ...user, photo: payload.photo, name: payload.name, date: payload.date, status: payload.status };
         }
-        return user;
     })
     yield put(setUser(newuserState));
+}
+export function* deleteUser(action) {
+    const { payload } = action;
+    const userTemp = yield select(getUserFromReducer);
+    let newuser = userTemp.filter((user) => user.id !== payload)
+    yield put(setUser(newuser));
 }
 export function* handleUser() {
     yield takeLeading("ADD_USER", addUser);
     yield takeLeading("EDIT_USER", editUser);
+    yield takeLeading("DELETE_USER", deleteUser);
 }

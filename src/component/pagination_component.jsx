@@ -5,7 +5,7 @@ function Pagination() {
             <nav className="flex" aria-label="Page navigation example">
                 <ul className="m-auto mt-4 inline-flex -space-x-px">
                     <li>
-                        <a href="#" className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg">Previous</a>
+                        <a href="#" className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg">&lt;</a>
                     </li>
                     <li>
                         <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 ">1</a>
@@ -23,7 +23,7 @@ function Pagination() {
                         <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 ">5</a>
                     </li>
                     <li>
-                        <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg ">Next</a>
+                        <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg ">&gt;</a>
                     </li>
                 </ul>
             </nav>

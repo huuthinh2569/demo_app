@@ -45,7 +45,7 @@ function Edit_Modal(props) {
         document.getElementById(props.id).style.display = "none";
     };
     return (
-        <div id={props.id} className="flex items-center h-full w-full hidden absolute top-0 left-0 backdrop-blur-sm">
+        <div id={props.id} className="flex items-center h-full w-full hidden absolute top-0 left-0 backdrop-blur-sm z-50">
             <div className="form_div relative top-1/4 left-1/4 rounded-md flex-col w-1/2 items-center h-96 block bg-blue-400 z-50">
                 <button onClick={closeModal} className="bg-red-500 text-white absolute -top-3 -right-3 w-10 h-10 rounded-full">X</button>
                 <p className="form_header text-center text-3xl text-white">Edit User</p>
@@ -68,6 +68,7 @@ function Edit_Modal(props) {
                                     />
                                 )}
                                 name="photo"
+                                defaultValue={props.photo}
                             />
                             <Controller
                                 control={control}
@@ -80,6 +81,7 @@ function Edit_Modal(props) {
                                     />
                                 )}
                                 name="name"
+                                defaultValue={props.name}
                             />
                             <Controller
                                 control={control}
@@ -92,6 +94,7 @@ function Edit_Modal(props) {
                                     />
                                 )}
                                 name="date"
+                                defaultValue={props.date}
                             />
                         </div>
                     </div>

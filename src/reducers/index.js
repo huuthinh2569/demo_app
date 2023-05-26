@@ -8,6 +8,6 @@ const rootReducer = combineReducers({
     user: userReducer,
     video: videoReducer,
     login: loginReducer,
-    api: apiReducer
+    api: apiReducer,
 });
 export default rootReducer;

@@ -1,5 +1,6 @@
 const inittialState = {
-    user: []
+    user: [],
+    usersSearch: [],
 }
 
 const userReducer = (state = inittialState, action) => {
@@ -8,6 +9,11 @@ const userReducer = (state = inittialState, action) => {
             return {
                 ...state,
                 user: action.payload,
+            };
+        case 'SET_SEARCH_USER':
+            return {
+                ...state,
+                usersSearch: action.payload,
             };
         default:
             return state;

@@ -10,6 +10,9 @@ module.exports = {
         '90per': '90%',
         '70per': '70%',
       },
+      margin: {
+        '22': '5.5rem',
+      },
       inset: {
         '9per': '9%',
       }

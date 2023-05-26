@@ -22,3 +22,33 @@ export const deleteUser = (data) => {
         payload: data,
     }
 }
+export const findUser = (data) => {
+    return {
+        type: "SEARCH_USER",
+        payload: data,
+    }
+}
+export const setfindUser = (data) => {
+    return {
+        type: "SET_SEARCH_USER",
+        payload: data,
+    }
+}
+export const findDate = (data) => {
+    return {
+        type: "SEARCH_DATE",
+        payload: data,
+    }
+}
+export const changeStatus = (data) => {
+    return {
+        type: "CHANGE_STATUS",
+        payload: data,
+    }
+}
+export const findStatus = (data) => {
+    return {
+        type: "SEARCH_STATUS",
+        payload: data,
+    }
+}

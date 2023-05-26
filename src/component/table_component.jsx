@@ -2,20 +2,37 @@ import React from "react";
 import Edit_Modal from "./modal_edit";
 import imgUser from "../assets/add_user.png";
 import Delete_Modal from "./modal_delete";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeStatus } from "../actions/user";
 function Table(props) {
     const userdata = props.userlist;
+    const dispatch = useDispatch();
     function showEditModal(id) {
         document.getElementById(`modal_edit_user_${id}`).style.display = "block";
     }
     function showDeleteModal(id) {
         document.getElementById(`modal_delete_user_${id}`).style.display = "block";
     }
+    function handleChecked(id, status) {
+        const newdata = { id: id, status: !status };
+        dispatch(changeStatus(newdata));
+    }
+    function handleTotalChecked() {
+        const total = document.getElementById("cb_total");
+        const items = document.getElementsByName("cb_item");
+        console.log(items);
+        for (var i = 0, max = items.length; i < max; i++) {
+            if (items[i].type === 'checkbox')
+                items[i].checked = total.checked;
+        }
+    }
     return (
         <table className=" border-4 border-gray-300 w-full">
             <tbody>
                 <tr>
                     <th className="h-10">
-                        <input type="checkbox" name="checkbox" id="cb_total" />
+                        <input type="checkbox" name="checkbox" id="cb_total" onClick={() => handleTotalChecked()} />
                     </th>
                     <th className="h-10">
                         <p>Photo</p>
@@ -40,15 +57,14 @@ function Table(props) {
                         const month = `${(dateTime.getMonth() + 1) < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)}`;
                         const year = `${dateTime.getFullYear()}`;
                         const dateDMY = `${date}-${month}-${year}`;
-                        const newphoto = x.photo.replace(x.photo.slice(0, 12), "");
                         return (
                             <tr className="border-2 border-gray-300">
                                 <td className="text-center border-2 border-gray-300 h-14">
-                                    <input type="checkbox" name="checkbox" id="cb_1" />
+                                    <input type="checkbox" name="cb_item" id={`cb_${x.id}`} />
                                 </td>
                                 <td className="text-center border-2 border-gray-300 h-14">
                                     <div className="flex">
-                                        {x.photo ? <img className="m-auto" src={newphoto} height={50} width={50}></img> : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 m-auto"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>}
+                                        {x.photo ? <img className="m-auto" src={x.photo} height={50} width={50}></img> : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 m-auto"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>}
                                     </div>
                                 </td>
                                 <td className="text-center border-2 border-gray-300 h-14">
@@ -60,7 +76,7 @@ function Table(props) {
                                 <td className="border-2 border-gray-300 h-14">
                                     <div className="flex">
                                         <label className="relative inline-flex items-center cursor-pointer m-auto">
-                                            <input type="checkbox" defaultChecked={x.status} className="sr-only peer" />
+                                            <input type="checkbox" defaultChecked={x.status} onClick={() => handleChecked(x.id, x.status)} checked={x.status} className="sr-only peer" />
                                             <div className="w-11 h-6 bg-black dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                         </label>
                                     </div>

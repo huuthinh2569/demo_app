@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import Pagination from "../component/pagination_component";
 import Add_Modal from "../component/modal_add";
 import Table from "../component/table_component";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,7 +67,6 @@ function Manager() {
                         <span className="font-bold p-1">USERS</span><span className="text-xs">Details</span>
                     </div>
                     <Table userlist={isSearch ? usersearch : userdata}></Table>
-                    <Pagination></Pagination>
                 </div>
                 <div className="righ flex-initial w-1/5 m-2 p-2 bg-white flex flex-col h-70per">
                     <button id="new_user" onClick={showCreateUser} className="w-40 m-auto h-10 bg-green-500 text-white border-2 rounded-md">New User</button>

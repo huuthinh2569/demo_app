@@ -1,8 +1,6 @@
 import React from "react";
 import Edit_Modal from "./modal_edit";
-import imgUser from "../assets/add_user.png";
 import Delete_Modal from "./modal_delete";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { changeStatus } from "../actions/user";
 import { useEffect } from "react";
@@ -24,7 +22,7 @@ function Table(props) {
         const items = document.getElementsByName("cb_item");
         console.log(items);
         for (var i = 0, max = items.length; i < max; i++) {
-            if (items[i].type === 'checkbox')
+            if (items[i].type == 'checkbox')
                 items[i].checked = total.checked;
         }
     }
@@ -34,7 +32,7 @@ function Table(props) {
         const listitems = pagelist.querySelectorAll(".item-list");
         const nextbutton = document.getElementById("next-button");
         const prevbutton = document.getElementById("prev-button");
-        const paginationLimit = 2;
+        const paginationLimit = 5;
         const pageCount = Math.ceil(listitems.length / paginationLimit);
         let currentPage = 1;
         const disableButton = (button) => {
@@ -110,7 +108,7 @@ function Table(props) {
             setCurrentPage(currentPage + 1);
         });
 
-        document.querySelectorAll(".pagination-number").forEach((button) => {
+        pageNumbers.querySelectorAll("button").forEach((button) => {
             const pageIndex = Number(button.getAttribute("page-index"));
 
             if (pageIndex) {
@@ -122,7 +120,7 @@ function Table(props) {
     }, []);
     return (
         <div>
-            <table id="page-list" className=" border-4 border-gray-300 w-full">
+            <table id="page-list" className="border-4 border-gray-300 w-full">
                 <tbody>
                     <tr>
                         <th className="h-10">

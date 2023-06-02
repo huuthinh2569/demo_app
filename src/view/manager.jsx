@@ -1,21 +1,30 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Add_Modal from "../component/modal_add";
 import Table from "../component/table_component";
 import { useDispatch, useSelector } from "react-redux";
-import { findStatus, findUser, findDate } from "../actions/user";
+import { findStatus, findUser, findDate, setDefaultUser } from "../actions/user";
 import { debounce } from "lodash";
+import { rawdata } from "../data";
 function Manager() {
     const userlistState = state => state.user.user;
+    const userlimitState = state => state.user.limit;
+    const currentPageState = state => state.user.currentPage;
     const usersearchlistState = state => state.user.usersSearch;
+
     const [startDate, setstartDate] = useState(null);
     const [endDate, setendDate] = useState(null);
+    const value = rawdata;
 
     const usersearch = useSelector(usersearchlistState);
-    console.log("Search: ", usersearch);
     const userdata = useSelector(userlistState);
+    const userlimit = useSelector(userlimitState);
+    const currentPage = useSelector(currentPageState);
+
     const [isSearch, setisSearch] = useState(false);
     const dispatch = useDispatch();
-
+    useEffect(() => {
+        dispatch(setDefaultUser(value));
+    }, [value]);
     function showCreateUser() {
         document.getElementById("modal_create_user").style.display = "block";
     }
@@ -66,7 +75,7 @@ function Manager() {
                     <div className="p-2">
                         <span className="font-bold p-1">USERS</span><span className="text-xs">Details</span>
                     </div>
-                    <Table userlist={isSearch ? usersearch : userdata}></Table>
+                    <Table currentPage={currentPage} userlimit={userlimit} userlist={isSearch ? usersearch : userdata}></Table>
                 </div>
                 <div className="righ flex-initial w-1/5 m-2 p-2 bg-white flex flex-col h-70per">
                     <button id="new_user" onClick={showCreateUser} className="w-40 m-auto h-10 bg-green-500 text-white border-2 rounded-md">New User</button>

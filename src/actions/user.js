@@ -10,6 +10,12 @@ export const setUser = (data) => {
         payload: data,
     }
 }
+export const setDefaultUser = (data) => {
+    return {
+        type: "SET_DEFAULT_USER",
+        payload: data,
+    }
+}
 export const editUser = (data) => {
     return {
         type: "EDIT_USER",

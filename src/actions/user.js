@@ -10,12 +10,88 @@ export const setUser = (data) => {
         payload: data,
     }
 }
+export const changePage = (data) => {
+    return {
+        type: "ChANGE_PAGE",
+        payload: data,
+    }
+}
+export const nextPage = (data) => {
+    return {
+        type: "NEXT_PAGE",
+        payload: data,
+    }
+}
+export const prevPage = (data) => {
+    return {
+        type: "PREVIOUS_PAGE",
+        payload: data,
+    }
+}
+export const setPageCount = (data) => {
+    return {
+        type: "SET_PAGE_COUNT",
+        payload: data,
+    }
+}
+export const getList = () => {
+    return {
+        type: "GET_LIST_USER",
+    }
+}
+export const setList = (data) => {
+    return {
+        type: "SET_LIST_USER",
+        payload: data,
+    }
+}
+export const setSearchKey = (data) => {
+    return {
+        type: "SET_SEARCH_KEY",
+        payload: data,
+    }
+}
 export const setDefaultUser = (data) => {
     return {
         type: "SET_DEFAULT_USER",
         payload: data,
     }
 }
+export const setData = (data) => {
+    return {
+        type: "SET_DEFAULT_USER",
+        payload: data,
+    }
+}
+
+export const setCurrentPage = (data) => {
+    return {
+        type: "SET_CURRENT_PAGE",
+        payload: data,
+    }
+}
+
+export const setPage = (data) => {
+    return {
+        type: "SET_CURRENT_PAGE",
+        payload: data,
+    }
+}
+
+export const getLimitPage = (data) => {
+    return {
+        type: "SET_LIMIT_PAGE",
+        payload: data,
+    }
+}
+
+export const setLimit = (data) => {
+    return {
+        type: "SET_LIMIT_PAGE",
+        payload: data,
+    }
+}
+
 export const editUser = (data) => {
     return {
         type: "EDIT_USER",

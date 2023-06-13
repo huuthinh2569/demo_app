@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Edit_Modal from "./modal_edit";
 import Delete_Modal from "./modal_delete";
-import { useDispatch } from "react-redux";
-import { changeStatus } from "../actions/user";
-function Table(props) {
-    const userdata = props.userlist;
-    const userlimit = props.userlimit;
-    const [listpage, setlistpage] = useState([]);
-    const [currentPage, setcurrentPage] = useState(1);
-    const pageCount = Math.ceil(userdata.length / userlimit);
+import { useDispatch, useSelector } from "react-redux";
+import { changePage, changeStatus, nextPage, prevPage, setCurrentPage } from "../actions/user";
+function Table() {
+    const userState = state => state.user.user;
+    const userlimitState = state => state.user.limit;
+    const currentPageState = state => state.user.currentPage;
+    const pageCountState = state => state.user.pageCount;
+    const userlist = useSelector(userState);
+    const userlimit = useSelector(userlimitState);
+    const currentPage = useSelector(currentPageState);
+    const pageCount = useSelector(pageCountState);
     const listbutton = [];
     const dispatch = useDispatch();
     useEffect(() => {
-        const defaultlist = userdata.filter(x => x.id <= userlimit);
-        setlistpage(defaultlist);
-    }, [userdata]);
+        handlebtnStatus()
+    }, [userlist]);
     function showEditModal(id) {
         document.getElementById(`modal_edit_user_${id}`).style.display = "block";
     }
@@ -35,42 +37,37 @@ function Table(props) {
         }
     }
     function handleChangePage(pageNum) {
-        const prevRange = (pageNum - 1) * userlimit;
-        const nextRange = pageNum * userlimit;
-        const data = userdata.filter((x) => x.id > prevRange && x.id <= nextRange)
-        setcurrentPage(pageNum);
-        setlistpage(data);
+        dispatch(changePage(pageNum));
+        dispatch(setCurrentPage(pageNum));
+        // setlistpage(data);
     }
     function handlePrevPage() {
-        let pageNum = currentPage - 1;
-        const prevRange = (pageNum - 1) * userlimit;
-        const nextRange = pageNum * userlimit;
-        const data = userdata.filter((x) => x.id > prevRange && x.id <= nextRange)
-        setcurrentPage(pageNum);
-        if (currentPage == 1) {
+        const pageNum = currentPage - 1;
+        dispatch(changePage(pageNum));
+        dispatch(setCurrentPage(pageNum));
+        if (currentPage === 1) {
             document.getElementById("prev-button").disabled = true;
-            setcurrentPage(1);
+            dispatch(setCurrentPage(currentPage));
             return;
         } else {
             document.getElementById("next-button").disabled = false;
         }
-        setlistpage(data);
+        // setlistpage(data);
     }
     function handleNextPage() {
-        let pageNum = currentPage + 1;
-        const prevRange = (pageNum - 1) * userlimit;
-        const nextRange = pageNum * userlimit;
-        const data = userdata.filter((x) => x.id > prevRange && x.id <= nextRange)
-        setcurrentPage(pageNum);
-        if (currentPage == pageCount) {
+        const pageNum = currentPage + 1;
+        dispatch(changePage(pageNum));
+        dispatch(setCurrentPage(pageNum));
+        console.log("pagenum: ", pageNum);
+        if (currentPage === pageCount) {
             document.getElementById("next-button").disabled = true;
-            setcurrentPage(pageCount);
+            dispatch(setCurrentPage(currentPage));
             return;
         }
         else {
             document.getElementById("prev-button").disabled = false;
         }
-        setlistpage(data);
+        // setlistpage(data);
     }
     function handlebtnStatus() {
         if (currentPage === 1) {
@@ -87,12 +84,11 @@ function Table(props) {
     }
     function renderPaginationNav() {
         for (let i = 1; i <= pageCount; i++) {
-            if (i == currentPage) {
-                listbutton.push(<button onClick={() => { handleChangePage(i) }} className="border-black rounded-full bg-gray-300 mx-2 border-2 w-10 h-10">{i}</button>);
+            if (i === currentPage) {
+                listbutton.push(<button key={"btn" + i} onClick={() => { handleChangePage(i) }} className="border-black rounded-full bg-gray-300 mx-2 border-2 w-10 h-10">{i}</button>);
             } else {
-                listbutton.push(<button onClick={() => { handleChangePage(i) }} className="border-black rounded-full mx-2 border-2 w-10 h-10">{i}</button>);
+                listbutton.push(<button key={"btn" + i} onClick={() => { handleChangePage(i) }} className="border-black rounded-full mx-2 border-2 w-10 h-10">{i}</button>);
             }
-            handlebtnStatus();
         }
         return <div id="page-numbers" className="flex items-center">{listbutton}</div>
     }
@@ -121,14 +117,14 @@ function Table(props) {
                         </th>
                     </tr>
                     {
-                        listpage.map((x) => {
+                        userlist.map((x) => {
                             const dateTime = new Date(x.date);
                             const date = `${dateTime.getDate() < 10 ? '0' + dateTime.getDate() : dateTime.getDate()}`;
                             const month = `${(dateTime.getMonth() + 1) < 10 ? '0' + (dateTime.getMonth() + 1) : (dateTime.getMonth() + 1)}`;
                             const year = `${dateTime.getFullYear()}`;
                             const dateDMY = `${date}-${month}-${year}`;
                             return (
-                                <tr className="item-list border-2 border-gray-300">
+                                <tr key={x.id} className="item-list border-2 border-gray-300">
                                     <td className="text-center border-2 border-gray-300 h-14">
                                         <input type="checkbox" name="cb_item" id={`cb_${x.id}`} />
                                     </td>
@@ -146,7 +142,7 @@ function Table(props) {
                                     <td className="border-2 border-gray-300 h-14">
                                         <div className="flex">
                                             <label className="relative inline-flex items-center cursor-pointer m-auto">
-                                                <input type="checkbox" defaultChecked={x.status} onClick={() => handleChecked(x.id, x.status)} checked={x.status} className="sr-only peer" />
+                                                <input type="checkbox" checked={x.status} onChange={() => handleChecked(x.id, x.status)} className="sr-only peer" />
                                                 <div className="w-11 h-6 bg-black dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                             </label>
                                         </div>
@@ -161,8 +157,10 @@ function Table(props) {
                                             </button>
                                         </div>
                                     </td>
-                                    <Edit_Modal itemid={x.id} photo={x.photo} name={x.name} date={x.date} status={x.status} key={x.id} id={`modal_edit_user_${x.id}`}></Edit_Modal>
-                                    <Delete_Modal itemid={x.id} photo={x.photo} name={x.name} date={x.date} status={x.status} key={x.id} id={`modal_delete_user_${x.id}`}></Delete_Modal>
+                                    <td>
+                                        <Edit_Modal itemid={x.id} photo={x.photo} name={x.name} date={x.date} status={x.status} key={"edit" + x.id} id={`modal_edit_user_${x.id}`}></Edit_Modal>
+                                        <Delete_Modal itemid={x.id} photo={x.photo} name={x.name} date={x.date} status={x.status} key={"delete" + x.id} id={`modal_delete_user_${x.id}`}></Delete_Modal>
+                                    </td>
                                 </tr>
                             )
                         }

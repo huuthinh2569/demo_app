@@ -2,70 +2,37 @@ import React, { useCallback, useEffect, useState } from "react";
 import Add_Modal from "../component/modal_add";
 import Table from "../component/table_component";
 import { useDispatch, useSelector } from "react-redux";
-import { findStatus, findUser, findDate, setDefaultUser } from "../actions/user";
+import { findStatus, findUser, findDate, setDefaultUser, getList } from "../actions/user";
 import { debounce } from "lodash";
 import { rawdata } from "../data";
 function Manager() {
-    const userlistState = state => state.user.user;
-    const userlimitState = state => state.user.limit;
-    const currentPageState = state => state.user.currentPage;
-    const usersearchlistState = state => state.user.usersSearch;
-
-    const [startDate, setstartDate] = useState(null);
-    const [endDate, setendDate] = useState(null);
+    const [startDate, setstartDate] = useState("");
+    const [endDate, setendDate] = useState("");
     const value = rawdata;
-
-    const usersearch = useSelector(usersearchlistState);
-    const userdata = useSelector(userlistState);
-    const userlimit = useSelector(userlimitState);
-    const currentPage = useSelector(currentPageState);
-
-    const [isSearch, setisSearch] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setDefaultUser(value));
+        dispatch(getList());
     }, [value]);
     function showCreateUser() {
         document.getElementById("modal_create_user").style.display = "block";
     }
-    const debounceSearch = useCallback(debounce((value) => dispatch(findUser(value)), 1000), []);
-
+    const debounceSearch = useCallback(debounce((value) => dispatch(findUser(value)), 1000), []);;
     function handleSearch(e) {
         const { value } = e.target;
-        if (value !== "") {
-            setisSearch(true);
-        } else {
-            setisSearch(false);
-        }
         debounceSearch(value);
     }
     const handleDate = (e) => {
         const { value } = e.target;
-        if (value !== "") {
-            setisSearch(true);
-        } else {
-            setisSearch(false);
-        }
         setstartDate(value);
         dispatch(findDate({ startDate: value, endDate }));
     }
     const handleDateExpired = (e) => {
         const { value } = e.target;
-        if (value !== "") {
-            setisSearch(true);
-        } else {
-            setisSearch(false);
-        }
         setendDate(value);
         dispatch(findDate({ startDate, endDate: value }));
     }
     function handleStatus(status) {
-        console.log("status: ", status);
-        if (status !== "") {
-            setisSearch(true);
-        } else {
-            setisSearch(false);
-        }
         dispatch(findStatus(status));
     }
     return (
@@ -75,7 +42,7 @@ function Manager() {
                     <div className="p-2">
                         <span className="font-bold p-1">USERS</span><span className="text-xs">Details</span>
                     </div>
-                    <Table currentPage={currentPage} userlimit={userlimit} userlist={isSearch ? usersearch : userdata}></Table>
+                    <Table></Table>
                 </div>
                 <div className="righ flex-initial w-1/5 m-2 p-2 bg-white flex flex-col h-70per">
                     <button id="new_user" onClick={showCreateUser} className="w-40 m-auto h-10 bg-green-500 text-white border-2 rounded-md">New User</button>
@@ -115,7 +82,7 @@ function Manager() {
                                 <p>Active</p>
                             </div>
                             <div className="status-item flex">
-                                <input type="radio" className="mx-2 my-1 w-5 h-6" name="radioStatus" onClick={() => { handleStatus(null) }} defaultChecked />
+                                <input type="radio" className="mx-2 my-1 w-5 h-6" name="radioStatus" onClick={() => { handleStatus("full") }} defaultChecked />
                                 <p>Any</p>
                             </div>
                         </div>

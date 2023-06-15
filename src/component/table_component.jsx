@@ -12,10 +12,13 @@ function Table() {
     const userlimit = useSelector(userlimitState);
     const currentPage = useSelector(currentPageState);
     const pageCount = useSelector(pageCountState);
+    const [prevState, setprevState] = useState(true);
+    const [nextState, setnextState] = useState(false);
+
     const listbutton = [];
     const dispatch = useDispatch();
     useEffect(() => {
-        handlebtnStatus()
+        handlebtnStatus();
     }, [userlist]);
     function showEditModal(id) {
         document.getElementById(`modal_edit_user_${id}`).style.display = "block";
@@ -45,14 +48,11 @@ function Table() {
         const pageNum = currentPage - 1;
         dispatch(changePage(pageNum));
         dispatch(setCurrentPage(pageNum));
+        console.log("pagenum", pageNum);
         if (currentPage === 1) {
-            document.getElementById("prev-button").disabled = true;
-            dispatch(setCurrentPage(currentPage));
+            setprevState(true);
             return;
-        } else {
-            document.getElementById("next-button").disabled = false;
         }
-        // setlistpage(data);
     }
     function handleNextPage() {
         const pageNum = currentPage + 1;
@@ -60,26 +60,21 @@ function Table() {
         dispatch(setCurrentPage(pageNum));
         console.log("pagenum: ", pageNum);
         if (currentPage === pageCount) {
-            document.getElementById("next-button").disabled = true;
-            dispatch(setCurrentPage(currentPage));
+            setnextState(true);
             return;
         }
-        else {
-            document.getElementById("prev-button").disabled = false;
-        }
-        // setlistpage(data);
     }
     function handlebtnStatus() {
         if (currentPage === 1) {
-            document.getElementById("prev-button").disabled = true;
+            setprevState(true);
         } else {
-            document.getElementById("prev-button").disabled = false;
+            setprevState(false);
         }
 
         if (pageCount === currentPage) {
-            document.getElementById("next-button").disabled = true;
+            setnextState(true);
         } else {
-            document.getElementById("next-button").disabled = false;
+            setnextState(false);
         }
     }
     function renderPaginationNav() {
@@ -170,7 +165,7 @@ function Table() {
             </table>
             <nav className="flex items-center" aria-label="Page navigation example">
                 <div className="flex m-auto">
-                    <button onClick={() => { handlePrevPage() }} id="prev-button" className="w-10 h-10 rounded-lg disabled:bg-gray-200 disabled:text-gray-400 border-gray-400 hover:bg-green-300 border-2 flex items-center">
+                    <button disabled={prevState} onClick={() => { handlePrevPage() }} id="prev-button" className="w-10 h-10 rounded-lg disabled:bg-gray-200 disabled:text-gray-400 border-gray-400 hover:bg-green-300 border-2 flex items-center">
                         <span className="m-auto bold text-2xl h-full">
                             &lt;
                         </span>
@@ -178,7 +173,7 @@ function Table() {
                     {
                         renderPaginationNav()
                     }
-                    <button onClick={() => { handleNextPage() }} id="next-button" className="w-10 h-10 rounded-lg disabled:bg-gray-200 disabled:text-gray-400 border-gray-400 hover:bg-green-300 border-2 flex items-center">
+                    <button disabled={nextState} onClick={() => { handleNextPage() }} id="next-button" className="w-10 h-10 rounded-lg disabled:bg-gray-200 disabled:text-gray-400 border-gray-400 hover:bg-green-300 border-2 flex items-center">
                         <span className="m-auto bold text-2xl h-full">
                             &gt;
                         </span>

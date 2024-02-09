@@ -5,5 +5,5 @@ import { handleUser } from "./user";
 
 export default function* rootSaga() {
     console.log("this is rootSaga");
-    yield all([handleLogin(), handleUser()]);
+    yield all([handleLogin(), handleUser(), handleCallAPI()]);
 }

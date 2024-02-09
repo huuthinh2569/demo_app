@@ -17,7 +17,7 @@ function Manager() {
     function showCreateUser() {
         document.getElementById("modal_create_user").style.display = "block";
     }
-    const debounceSearch = useCallback(debounce((value) => dispatch(findUser(value)), 1000), []);;
+    const debounceSearch = useCallback(debounce((value) => dispatch(findUser(value)), 1000), []);
     function handleSearch(e) {
         const { value } = e.target;
         debounceSearch(value);

@@ -38,12 +38,10 @@ function Content() {
             <div className="flex flex-col overflow-y-auto overflow-x-hidden">
                 {
                     selectdata.map(x =>
-                        <div onClick={() => {
+                        <div key={x.id} onClick={() => {
                             setclickvideo(true);
                             setvideoshow(x.id);
                             setvideocomment(x.snippet.description);
-                            console.log(x.id);
-                            console.log(x.snippet.description);
                         }}>
                             <VideoItem key={x.id} url={x.snippet.thumbnails.high.url} title={x.snippet.localized.title} info={x.snippet.publishedAt}></VideoItem>
                         </div>

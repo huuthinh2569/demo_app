@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Btn from "./button_submit_component";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,9 +14,6 @@ function Add_Modal(props) {
         id: yup
             .number()
             .required("This field Is Required"),
-        photo: yup
-            .string()
-            .required("This field Is Required"),
         name: yup
             .string()
             .required("This field Is Required"),
@@ -29,20 +25,19 @@ function Add_Modal(props) {
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             id: "",
-            photo: "",
             name: "",
             date: "",
             status: true,
         },
         criteriaMode: 'all',
         shouldFocusError: true,
-        // resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
     })
     function closeModal() {
         document.getElementById(props.id).style.display = "none";
     }
     const onSubmitHandler = (data) => {
-        const newdata = { ...data, photo: imgPreview };
+        const newdata = { id: data.id, photo: data.photo, name: data.name, date: data.date, status: data.status, photo: imgPreview };
         dispatch(addUser(newdata));
         document.getElementById(props.id).style.display = "none";
     };
@@ -90,6 +85,7 @@ function Add_Modal(props) {
                                 )}
                                 name="id"
                             />
+                            {errors.id && <p className='absolute top-1 left-full text-left w-64 text-red-500'>{errors.id.message}</p>}
                             <Controller
                                 control={control}
                                 render={({ field: { ref } }) => (
@@ -116,6 +112,7 @@ function Add_Modal(props) {
                                 )}
                                 name="name"
                             />
+                            {errors.name && <p className='absolute top-2/3 left-full text-left w-64 text-red-500'>{errors.name.message}</p>}
                             <Controller
                                 control={control}
                                 render={({ field: { value, onChange, ref } }) => (
@@ -128,6 +125,7 @@ function Add_Modal(props) {
                                 )}
                                 name="date"
                             />
+                            {errors.date && <p className='absolute top-3/4 left-full text-left w-64 text-red-500'>{errors.date.message}</p>}
                         </div>
                     </div>
                     <div className="flex items-center justify-around">

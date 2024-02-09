@@ -1,6 +1,5 @@
-export const getAPI = (data) => {
+export const getAPI = () => {
     return {
         type: 'GET_API',
-        payload: data,
     }
 }

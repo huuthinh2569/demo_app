@@ -16,18 +16,6 @@ export const changePage = (data) => {
         payload: data,
     }
 }
-export const nextPage = (data) => {
-    return {
-        type: "NEXT_PAGE",
-        payload: data,
-    }
-}
-export const prevPage = (data) => {
-    return {
-        type: "PREVIOUS_PAGE",
-        payload: data,
-    }
-}
 export const setPageCount = (data) => {
     return {
         type: "SET_PAGE_COUNT",

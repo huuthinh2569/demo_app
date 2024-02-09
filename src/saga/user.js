@@ -1,5 +1,4 @@
 import { put, select, takeLeading } from "redux-saga/effects";
-import Global from "../utils/global";
 import { setCurrentPage, setData, setLimit, setList, setPage, setPageCount, setSearchKey, setUser, setfindUser } from "../actions/user";
 
 export const getUserFromReducer = (state) => state.user.rawUser
@@ -8,10 +7,12 @@ export const getSearchKeyFromReducer = (state) => state.user.searchKey
 export function* addUser(action) {
     const { payload } = action;
     const userTemp = yield select(getUserFromReducer);
+    const searchKey = yield select(getSearchKeyFromReducer);
     const user = payload;
     const uid = userTemp.list.find(x => x.id === user.id);
-    if (uid !== null) {
-        console.log(`${uid.id}` + " is exists");
+    console.log("user", user);
+    if (uid != null) {
+        console.log(`${uid.id} is exists`);
         return
     }
     const limit = yield select(getlimitFromReducer);
@@ -19,17 +20,31 @@ export function* addUser(action) {
     const nextRange = 1 * limit;
     let newlist = [...userTemp.list, user];
     let newdata = { ...userTemp, list: newlist };
-    let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
-    console.log("saga:", defauluserlist);
-    yield put(setUser(newdata));
-    yield put(setList(defauluserlist));
-    yield put(setCurrentPage(1));
+    if (searchKey === "") {
+        let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
+        const pageCount = Math.ceil(newdata.list.length / limit);
+        yield put(setUser(newdata));
+        yield put(setList(defauluserlist));
+        yield put(setCurrentPage(1));
+        yield put(setPageCount(pageCount));
+    } else {
+        let defauluserlist = newdata.list.filter((user, index) => user.name.includes(searchKey) || user.status === searchKey || (new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime() && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime())
+        );
+        const pageCount = Math.ceil(defauluserlist.length / limit);
+        const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
+        yield put(setUser(newdata));
+        yield put(setList(newusers));
+        yield put(setCurrentPage(1));
+        yield put(setPageCount(pageCount));
+    }
+
 }
 export function* editUser(action) {
     const { payload } = action;
     console.log(payload.id);
     const userTemp = yield select(getUserFromReducer);
     const limit = yield select(getlimitFromReducer);
+    const searchKey = yield select(getSearchKeyFromReducer);
     const prevRange = (1 - 1) * limit;
     const nextRange = 1 * limit;
     const newuserState = userTemp.list.map(user => {
@@ -39,23 +54,50 @@ export function* editUser(action) {
         return user;
     })
     let newdata = { ...userTemp, list: newuserState };
-    let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
-    yield put(setCurrentPage(1));
-    yield put(setUser(newdata));
-    yield put(setList(defauluserlist));
+    console.log(searchKey)
+    if (searchKey === "") {
+        let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
+        const pageCount = Math.ceil(newdata.list.length / limit);
+        yield put(setUser(newdata));
+        yield put(setList(defauluserlist));
+        yield put(setCurrentPage(1));
+        yield put(setPageCount(pageCount));
+    } else {
+        let defauluserlist = newdata.list.filter((user, index) => user.name.includes(searchKey) || user.status === searchKey || (new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime() && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime())
+        );
+        const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
+        yield put(setUser(newdata));
+        yield put(setList(newusers));
+        yield put(setCurrentPage(1));
+    }
 }
 export function* deleteUser(action) {
     const { payload } = action;
     const userTemp = yield select(getUserFromReducer);
     const limit = yield select(getlimitFromReducer);
+    const searchKey = yield select(getSearchKeyFromReducer);
     const prevRange = (1 - 1) * limit;
     const nextRange = 1 * limit;
     let newuser = userTemp.list.filter((user) => user.id !== payload);
     let newdata = { ...userTemp, list: newuser };
-    let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
-    yield put(setUser(newdata));
-    yield put(setCurrentPage(1));
-    yield put(setList(defauluserlist));
+    if (searchKey === "") {
+        let defauluserlist = newdata.list.filter((user, index) => index >= prevRange && index < nextRange);
+        const pageCount = Math.ceil(newdata.list.length / limit);
+        yield put(setPageCount(pageCount));
+        yield put(setUser(newdata));
+        yield put(setCurrentPage(1));
+        yield put(setList(defauluserlist));
+    } else {
+        let defauluserlist = newdata.list.filter((user, index) => user.name.includes(searchKey) || user.status === searchKey || (new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime() && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime())
+        );
+        console.log(defauluserlist);
+        const pageCount = Math.ceil(defauluserlist.length / limit);
+        const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
+        yield put(setUser(newdata));
+        yield put(setList(newusers));
+        yield put(setCurrentPage(1));
+        yield put(setPageCount(pageCount));
+    }
 }
 export function* searchUser(action) {
     const { payload } = action;
@@ -112,11 +154,8 @@ export function* changeStatus(action) {
     const limit = yield select(getlimitFromReducer);
     const prevRange = (1 - 1) * limit;
     const currentRange = 1 * limit;
-    if (searchKey !== null) {
-        const newSearchUsers = userTemp.list.filter((user, index) => user.name.includes(searchKey)
-            || user.status === searchKey
-            || new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime()
-            && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime()
+    if (searchKey !== "") {
+        const newSearchUsers = userTemp.list.filter((user, index) => user.name.includes(searchKey) || user.status === searchKey || (new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime() && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime())
         );
         if (searchKey === "full") {
             const newSearchUsers = userTemp.list.filter((user, index) => user);
@@ -197,26 +236,6 @@ export function* setLimitValue(action) {
     console.log("saga: ", payload);
     yield put(setLimit(payload));
 }
-export function* prevValue(action) {
-    const { payload } = action;
-    const userTemp = yield select(getUserFromReducer);
-    const limit = yield select(getlimitFromReducer);
-    const searchKey = yield select(getSearchKeyFromReducer);
-    const prevRange = (payload - 1) * limit;
-    const nextRange = payload * limit;
-    if (searchKey !== null) {
-        let defauluserlist = userTemp.list.filter((user, index) => user.name.includes(searchKey)
-            || user.status === searchKey
-            || new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime()
-            && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime()
-        );
-        const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
-        yield put(setList(newusers));
-    } else {
-        let defauluserlist = userTemp.list.filter((user, index) => index >= prevRange && index < nextRange);
-        yield put(setList(defauluserlist));
-    }
-}
 export function* changeValue(action) {
     const { payload } = action;
     const userTemp = yield select(getUserFromReducer);
@@ -224,11 +243,8 @@ export function* changeValue(action) {
     const searchKey = yield select(getSearchKeyFromReducer);
     const prevRange = (payload - 1) * limit;
     const nextRange = payload * limit;
-    if (searchKey !== null) {
-        let defauluserlist = userTemp.list.filter((user, index) => user.name.includes(searchKey)
-            || user.status === searchKey
-            || new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime()
-            && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime()
+    if (searchKey !== "") {
+        let defauluserlist = userTemp.list.filter((user, index) => user.name.includes(searchKey) || user.status === searchKey || (new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime() && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime())
         );
         const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
         yield put(setList(newusers));
@@ -238,27 +254,7 @@ export function* changeValue(action) {
     }
 
 }
-export function* nextValue(action) {
-    const { payload } = action;
-    const userTemp = yield select(getUserFromReducer);
-    const limit = yield select(getlimitFromReducer);
-    const searchKey = yield select(getSearchKeyFromReducer);
-    const prevRange = (payload - 1) * limit;
-    const nextRange = payload * limit;
-    if (searchKey !== null) {
-        let defauluserlist = userTemp.list.filter((user, index) => user.name.includes(searchKey)
-            || user.status === searchKey
-            || new Date(user.date).getTime() >= new Date(searchKey.startDate).getTime()
-            && new Date(user.date).getTime() <= new Date(searchKey.endDate).getTime()
-        );
-        const newusers = defauluserlist.filter((user, index) => index >= prevRange && index < nextRange);
-        yield put(setList(newusers));
-        yield put(setPageCount(defauluserlist.length / limit));
-    } else {
-        let defauluserlist = userTemp.list.filter((user, index) => index >= prevRange && index < nextRange);
-        yield put(setList(defauluserlist));
-    }
-}
+
 export function* handleUser() {
     yield takeLeading("ADD_USER", addUser);
     yield takeLeading("EDIT_USER", editUser);

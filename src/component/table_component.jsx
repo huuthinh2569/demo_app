@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Edit_Modal from "./modal_edit";
 import Delete_Modal from "./modal_delete";
 import { useDispatch, useSelector } from "react-redux";
-import { changePage, changeStatus, nextPage, prevPage, setCurrentPage } from "../actions/user";
+import { changePage, changeStatus, setCurrentPage } from "../actions/user";
 function Table() {
     const userState = state => state.user.user;
     const userlimitState = state => state.user.limit;

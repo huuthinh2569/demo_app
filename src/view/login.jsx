@@ -42,15 +42,18 @@ function Login() {
         };
     }, [navigate]);
     return (
-        <div className='w-full h-full flex'>
-            <div className="login w-1/4 m-auto h-60 relative bg-orange-200 p-2 rounded-2xl">
+        <div className='w-full h-full bg-sky-300 flex flex-col'>
+            <div className=' h-40 flex items-center'>
+                <h1 className='m-auto text-white text-5xl'>Login</h1>
+            </div>
+            <div className="login w-1/4 m-auto h-50 relative bg-orange-200 p-2 rounded-2xl">
                 <form onSubmit={handleSubmit(onSubmitHandler)}>
                     <div className='flex items-center'>
-                        <div className="flex items-center flex-col flex-1">
+                        <div className="flex items-center flex-col w-1/3">
                             <Title text={"Email"}></Title>
                             <Title text={"Password"}></Title>
                         </div>
-                        <div className="flex items-center flex-col flex-1">
+                        <div className="flex items-center flex-col w-2/3">
                             <Controller
                                 control={control}
                                 render={({ field: { value, onChange, ref } }) => (
